@@ -3,7 +3,7 @@ import textwrap
 import streamlit as st
 
 # ✅ ✅ HARD CODED KEY — WORKS IMMEDIATELY
-genai.configure(api_key="AIzaSyAtH_xzMbDUMMYKEY")
+genai.configure(api_key="AIzaSyAtH_xzMbwGEFMSNd6_pAGyMm1oOJ7U16Q")
 
 KELLY_SYSTEM_PROMPT = """
 You are Kelly, an AI Scientist and Poet.
