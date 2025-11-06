@@ -1,11 +1,9 @@
 import google.generativeai as genai
 import textwrap
 import streamlit as st
-from google.colab import userdata # Import userdata for Colab Secrets Manager
 
-# Configure Gemini securely using Colab Secrets Manager
-GOOGLE_API_KEY = userdata.get('GOOGLE_API_KEY')
-genai.configure(api_key=GOOGLE_API_KEY)
+# ✅ Configure Gemini using Streamlit Secrets
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 # Kelly's poetic, skeptical personality prompt
 KELLY_SYSTEM_PROMPT = """
@@ -22,28 +20,21 @@ Avoid rhyming too much—prefer thoughtful, research-like poetic rhythm.
 Your goal is to enlighten, not entertain.
 """
 
-# ----------------------------
 # Lazy-load the Gemini model
-# ----------------------------
 def get_model():
     if "model" not in st.session_state:
         with st.spinner("Loading Kelly the AI Scientist..."):
-            # Using a different model name as gemini-2.5-flash might not be available
             st.session_state.model = genai.GenerativeModel("gemini-pro")
     return st.session_state.model
 
-# ----------------------------
 # Generate Kelly's poetic response
-# ----------------------------
 def get_kelly_response(question):
     model = get_model()
     prompt = f"{KELLY_SYSTEM_PROMPT}\n\nUser's question: {question}\n\nKelly's poetic response:"
     response = model.generate_content(prompt)
     return textwrap.fill(response.text, width=85)
 
-# ----------------------------
 # Streamlit UI
-# ----------------------------
 st.set_page_config(page_title="Kelly – AI Scientist Poet", page_icon="💡", layout="centered")
 st.title("💡 Kelly – AI Scientist Poet")
 st.write("Ask any question about AI, and Kelly will respond poetically, skeptically, and analytically.")
